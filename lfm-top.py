@@ -10,13 +10,12 @@ net = pylast.LastFMNetwork(api_key = API_KEY, api_secret = API_SECRET, username 
 
 bur = net.get_user('burbotsrevenge')
 top_artists = bur.get_top_artists()
-top_list = []
 long = 0
-for i in range(0,19):
+for i in range(0,20):
     if len(top_artists[i].item.get_name()) > long:
         long = len(top_artists[i].item.get_name())    
 max = top_artists[0].weight
-for x in range(0, 19):
+for x in range(0, 20):
     sys.stdout.write(str(top_artists[x].item))
     for i in range(0,long+1-len(top_artists[x].item.get_name())):
         sys.stdout.write(" ")
