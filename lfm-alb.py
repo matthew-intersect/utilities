@@ -18,8 +18,10 @@ max = top_albums[0].weight
 for x in range(0, 20):
     sys.stdout.write(str(top_albums[x].item))
     sys.stdout.write(" ")
-    for i in range(0,long+1-len(top_albums[x].item.get_name())-len(top_albums[x].item.get_artist().get_name())):
-        sys.stdout.write("|")
+    for i in range(0,long-len(top_albums[x].item.get_name())-len(top_albums[x].item.get_artist().get_name())):
+        sys.stdout.write(" ")
+    sys.stdout.write("||")
+    sys.stdout.write(top_albums[x].weight)
     for i in range(0,69*int(top_albums[x].weight)/int(max)):
         sys.stdout.write("|")
     print ""
