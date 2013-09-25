@@ -9,19 +9,28 @@ pass_hash = pylast.md5("testing")
 net = pylast.LastFMNetwork(api_key = API_KEY, api_secret = API_SECRET, username = username, password_hash = pass_hash)
 
 bur = net.get_user('burbotsrevenge')
-top_albums = bur.get_top_albums()
+if len(sys.argv) == 2:
+  top_albums = bur.get_top_albums(period=sys.argv[1] + 'month')
+else:
+  top_albums = bur.get_top_albums()
 long = 0
 for i in range(0,20):
     if len(top_albums[i].item.get_name()) + len(top_albums[i].item.get_artist().get_name()) > long:
         long = len(top_albums[i].item.get_name()) + len(top_albums[i].item.get_artist().get_name())
+if long > 50:
+  long = 50
 max = top_albums[0].weight
 for x in range(0, 20):
-    sys.stdout.write(str(top_albums[x].item))
+    if len(str(top_albums[x].item)) > 50:
+      sys.stdout.write(str(top_albums[x].item)[0:50])
+      sys.stdout.write("...")
+    else:
+      sys.stdout.write(str(top_albums[x].item))
     sys.stdout.write(" ")
     for i in range(0,long-len(top_albums[x].item.get_name())-len(top_albums[x].item.get_artist().get_name())):
         sys.stdout.write(" ")
     sys.stdout.write("||")
     sys.stdout.write(top_albums[x].weight)
-    for i in range(0,69*int(top_albums[x].weight)/int(max)):
+    for i in range(0,60*int(top_albums[x].weight)/int(max)):
         sys.stdout.write("|")
     print ""
