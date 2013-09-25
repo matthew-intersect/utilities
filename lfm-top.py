@@ -19,6 +19,8 @@ for x in range(0, 20):
     sys.stdout.write(str(top_artists[x].item))
     for i in range(0,long+1-len(top_artists[x].item.get_name())):
         sys.stdout.write(" ")
-    for i in range(0,99*int(top_artists[x].weight)/int(max)):
+    sys.stdout.write("||")
+    sys.stdout.write(top_artists[x].weight)
+    for i in range(0,95*int(top_artists[x].weight)/int(max)):
         sys.stdout.write("|")
     print ""
