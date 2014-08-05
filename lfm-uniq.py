@@ -1,6 +1,19 @@
-
+import pylast
 import urllib2
 import re
+
+#
+# Total Plays
+#
+
+API_KEY="cd46db2d0a17bb100773cbd56dcac707"
+API_SECRET="27576ed4e97e19c61e57f68408c088c1"
+username = "testdead"
+pass_hash = pylast.md5("testing")
+net = pylast.LastFMNetwork(api_key = API_KEY, api_secret = API_SECRET, username = username, password_hash = pass_hash)
+
+bur = net.get_user('burbotsrevenge')
+print("Total plays in library: " + str(bur.get_playcount()))
 
 #
 # Unique tracks
