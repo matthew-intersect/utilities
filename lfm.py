@@ -35,10 +35,12 @@ day_ago = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 day_count = 0
 artists_today = []
 for track in rec:
-    track_date = datetime.strptime(track[1],"%d %b %Y, %H:%M")+timedelta(hours=10)
+    track_date = datetime.strptime(track.playback_date,"%d %b %Y, %H:%M")+timedelta(hours=10)
     if track_date >= day_ago:
         day_count += 1
         artists_today.append(track[0].get_artist().get_name())
+    else:
+        break
 if day_count < 200:
     print "Tracks played today: " + str(day_count)
 else:
