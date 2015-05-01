@@ -1,6 +1,7 @@
 import pylast
 from datetime import *
 from decimal import *
+import calendar
 
 API_KEY="cd46db2d0a17bb100773cbd56dcac707"
 API_SECRET="27576ed4e97e19c61e57f68408c088c1"
@@ -30,21 +31,17 @@ age = bur.get_age()
 million_age = age + years_till
 print "Date (Age) million plays reached: " + str(million_date) + str(" (Age: ") + str(million_age) + ")"
 
-rec = bur.get_recent_tracks(200)
+start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)-timedelta(hours=10)
+end = datetime.now()-timedelta(hours=10)
+utc_start = calendar.timegm(start.utctimetuple())
+utc_end = calendar.timegm(end.utctimetuple())
+rec = bur.get_recent_tracks(time_from=utc_start, time_to=utc_end, limit=200)
 day_ago = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
 day_count = 0
 artists_today = []
 for track in rec:
-    track_date = datetime.strptime(track.playback_date,"%d %b %Y, %H:%M")+timedelta(hours=10)
-    if track_date >= day_ago:
-        day_count += 1
-        artists_today.append(track[0].get_artist().get_name())
-    else:
-        break
-if day_count < 200:
-    print "Tracks played today: " + str(day_count)
-else:
-    print "Tracks played today: 200+"
-if day_count != 0:
+    artists_today.append(track[0].get_artist().get_name())
+print "Tracks played today: " + str(len(rec))
+if len(rec) != 0:
     day_winner = max(set(artists_today), key=artists_today.count)
     print "Most played Artist today: " + day_winner + " (" + str(artists_today.count(day_winner)) + ")"
