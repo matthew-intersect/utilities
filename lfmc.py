@@ -1,6 +1,8 @@
 import sys
 import os
 import pylast
+from datetime import *
+from decimal import *
 
 net = None
 user = None
@@ -23,6 +25,16 @@ def main():
     input = raw_input()
     process_input(input)
     
+
+def print_playcounts():
+  playcount = Decimal(user.get_playcount())
+  registration_timestamp = user.get_unixtime_registered()
+  start_date = datetime.fromtimestamp(int(registration_timestamp)).date()
+  curr_date = date.today()
+  total_days = Decimal((curr_date - start_date).days)
+  avg = Decimal(playcount/total_days)
+  print "Playcount: " + str(playcount)
+  print "Average daily playcount: " + str(avg.quantize(Decimal('.01'), rounding=ROUND_DOWN))
 
 def print_artist_count():
   sys.stdout.write("Artist: ")
@@ -52,6 +64,8 @@ def print_top_artists():
 def process_input(input):
   if input == "exit" or input == "e":
     sys.exit(0)
+  elif input == "p":
+    print_playcounts()
   elif input == "a":
     print_artist_count()
   elif input == "ta":
@@ -69,6 +83,7 @@ def print_help():
   print "-------------------------"
   print "Last FM Command Line"
   print ""
+  print "[p] Print total and average playcounts"
   print "[a] Print playcount for given artist"
   print "[ta] Print top artists chart"
   print "[h] Reprint this help"
